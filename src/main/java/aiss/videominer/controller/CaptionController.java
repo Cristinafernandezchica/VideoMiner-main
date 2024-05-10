@@ -21,7 +21,7 @@ public class CaptionController {
 
     // GET http://localhost:8080/videominer/captions
     @GetMapping
-    public List<Caption> finAll(){
+    public List<Caption> findAll(){
         return repository.findAll();
     }
 
