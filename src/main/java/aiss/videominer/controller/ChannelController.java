@@ -87,23 +87,30 @@ public class ChannelController {
     // PUT http://localhost:8080/videominer/channels/{id}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@Valid @RequestBody Channel updatedChannel, @PathVariable String id) throws ChannelNotFoundException{
+    public void update(@Valid @RequestBody Channel updatedChannel, @PathVariable String id){
         Optional<Channel> channelData = repository.findById(id);
 
-        Channel channel = channelData.get();
-        channel.setName(updatedChannel.getName());
-        channel.setDescription(updatedChannel.getDescription());
-        channel.setCreatedTime(updatedChannel.getCreatedTime());
-        channel.setVideos(updatedChannel.getVideos());
+        if(channelData.isPresent()) {
+            Channel channel = channelData.get();
+            channel.setName(updatedChannel.getName());
+            channel.setDescription(updatedChannel.getDescription());
+            channel.setCreatedTime(updatedChannel.getCreatedTime());
+            channel.setVideos(updatedChannel.getVideos());
 
+            repository.save(channel);
+        } else{
+            repository.save(updatedChannel);
+        }
     }
 
     // DELETE http://localhost:8080/videominer/channels/{id}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id){
+    public void delete(@PathVariable String id) throws ChannelNotFoundException{
         if(repository.existsById(id)){
             repository.deleteById(id);
+        } else {
+            throw new ChannelNotFoundException();
         }
     }
 
