@@ -1,6 +1,5 @@
 package aiss.videominer.controller;
 
-import aiss.videominer.exception.ChannelNotFoundException;
 import aiss.videominer.exception.VideoNotFoundException;
 import aiss.videominer.model.Caption;
 import aiss.videominer.model.Comment;
@@ -26,8 +25,12 @@ public class VideoController {
     
     // GET http://localhost:8080/videominer/videos
     @GetMapping
-    public List<Video> findAll(){
-        return repository.findAll();
+    public List<Video> findAll() throws VideoNotFoundException{
+        List<Video> videos = repository.findAll();
+        if(videos.isEmpty()){
+            throw new VideoNotFoundException();
+        }
+        return videos;
     }
 
     // GET http://localhost:8080/videominer/videos/{id}
@@ -40,7 +43,10 @@ public class VideoController {
         return video.get();
     }
 
-    // Añadir prueba en postman
+
+    // Operaciones adicionales
+
+    // Obtener los subtítulos de un vídeo dado su id
     // GET http://loacalhost:8080/videominer/videos/{id}/captions
     @GetMapping("/{id}/captions")
     public List<Caption> getAllCaptionsByVideoId(@PathVariable(value="id") String id) throws VideoNotFoundException {
@@ -52,7 +58,7 @@ public class VideoController {
         return captions;
     }
 
-    // Añadir prueba en postman
+    // Obtener los comentarios de un vídeo dado su id
     // GET http://loacalhost:8080/videominer/videos/{id}/comments
     @GetMapping("/{id}/comments")
     public List<Comment> getAllCommentsByVideoId(@PathVariable(value="id") String id) throws VideoNotFoundException {
