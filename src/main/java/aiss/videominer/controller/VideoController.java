@@ -39,14 +39,11 @@ public class VideoController {
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = Video.class), mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema)})
     })
     @GetMapping
-    public List<Video> findAll() throws VideoNotFoundException{
+    public List<Video> findAll() {
         List<Video> videos = repository.findAll();
-        if(videos.isEmpty()){
-            throw new VideoNotFoundException();
-        }
+
         return videos;
     }
 

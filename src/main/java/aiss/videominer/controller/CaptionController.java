@@ -32,15 +32,12 @@ public class CaptionController {
             tags = {"captions", "get"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Caption.class), mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema())})
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Caption.class), mediaType = "application/json")})
     })
     @GetMapping
-    public List<Caption> findAll() throws CaptionNotFoundException {
+    public List<Caption> findAll() {
         List<Caption> captions = repository.findAll();
-        if(captions.isEmpty()){
-            throw new CaptionNotFoundException();
-        }
+
         return captions;
     }
 

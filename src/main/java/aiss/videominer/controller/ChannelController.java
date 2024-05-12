@@ -42,8 +42,7 @@ public class ChannelController {
             tags = {"channels", "get"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Channel.class), mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema())})
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Channel.class), mediaType = "application/json")})
     })
     @GetMapping
     public List<Channel> findAll(
@@ -51,7 +50,7 @@ public class ChannelController {
             @Parameter(description = "parameter to order channels retrieved") @RequestParam(required = false) String order,
             @Parameter(description = "number of page to be retrived") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "size of page to be retrieved") @RequestParam(defaultValue = "10") int size
-    ) throws ChannelNotFoundException{
+    ){
 
         Pageable paging;
 
@@ -72,9 +71,7 @@ public class ChannelController {
             pageChannels = repository.findByName(name, paging);
 
         List<Channel> channels = pageChannels.getContent();
-        if(channels.isEmpty()){
-            throw new ChannelNotFoundException();
-        }
+
         return channels;
     }
 

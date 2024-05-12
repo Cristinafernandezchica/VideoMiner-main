@@ -34,15 +34,12 @@ public class CommentController {
             tags = {"comments", "get"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Comment.class), mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema())})
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Comment.class), mediaType = "application/json")})
     })
     @GetMapping
-    public List<Comment> findAll() throws CommentNotFoundException {
+    public List<Comment> findAll() {
         List<Comment> comments = repository.findAll();
-        if(comments.isEmpty()){
-            throw new CommentNotFoundException();
-        }
+
         return comments;
     }
 
