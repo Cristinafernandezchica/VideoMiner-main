@@ -38,7 +38,7 @@ public class CaptionController {
     @GetMapping
     public List<Caption> findAll() throws CaptionNotFoundException {
         List<Caption> captions = repository.findAll();
-        if(!captions.isEmpty()){
+        if(captions.isEmpty()){
             throw new CaptionNotFoundException();
         }
         return captions;
